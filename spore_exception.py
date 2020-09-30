@@ -1,0 +1,2 @@
+class SporeException(Exception):
+    pass
