@@ -1,4 +1,4 @@
-from spore_exception import SporeException
+from src.spore_exception import SporeException
 import re
 import urllib.parse
 from requests import Session, Request

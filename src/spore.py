@@ -1,7 +1,7 @@
-from spore_exception import SporeException
-from spore_response import Response
+from src.spore_exception import SporeException
+from src.spore_response import Response
 import http.client
-from http_client import RESTHttpClient
+from src.http_client import RESTHttpClient
 from os import path
 import json
 import yaml
