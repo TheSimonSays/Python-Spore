@@ -1,0 +1,8 @@
+class SporeHttpException(Exception):
+    NOT_MODIFIED = 304
+    BAD_REQUEST = 400
+    NOT_FOUND = 404
+    NOT_ALLOWED = 405
+    CONFLICT = 409
+    PRECONDITION_FAILED = 412
+    INTERNAL_ERROR = 500

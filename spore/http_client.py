@@ -1,4 +1,4 @@
-from src.spore_exception import SporeException
+from spore_exception import SporeException
 import re
 import urllib.parse
 from requests import Session, Request
@@ -97,7 +97,7 @@ class RESTHttpClient:
         self._headers = headers
         return self
     
-    def ad_header(self, header, value):
+    def add_header(self, header, value):
         header_str = '{header}:{value}'.format(header=header, value=value)
         self._headers.append(header_str)
         return self._headers
@@ -117,7 +117,7 @@ class RESTHttpClient:
                 headers.append(old_header_value)
         
         if is_defined_header == 0:
-            header.append(header_str)
+            headers.append(header_str)
         
         self._headers = header
         return self._headers
@@ -150,9 +150,11 @@ class RESTHttpClient:
         response = session.send(prepped)
         status = response.status_code
         if status in [self.HTTP_OK, self.HTTP_CREATED, self.HTTP_ACEPTED]:
-            response = response.text
-        self._content = response
-        return response
+            response_text = response.text
+        else:
+            response_text = ''
+        self._content = response_text
+        return response_text
 
     def run(self):
         if self._conn_multiple:
@@ -165,7 +167,7 @@ class RESTHttpClient:
         if len(self._append) > 0:
             arr = list()
             for _append in self._append:
-                arr = arr + _append
+                arr = arr + _append.get_requests()
 
             self._requests = arr
             response = self._run()
@@ -174,7 +176,18 @@ class RESTHttpClient:
     def _run(self):
         headers = self._headers
         curly = result = list()
-        print(self._requests)
+
+        for req in self._requests:
+            return req[0]
 
     def do_post(self, url, params=None):
         return self._exec(self.POST, self._url(url), params)
+
+    def do_get(self, url, params=None):
+        return self._exec(self.GET, self._url(url), params)
+
+    def do_put(self, url, params=None):
+        return self._exec(self.PUT, self._url(url), params)
+
+    def do_delete(self, url, params=None):
+        return self._exec(self.DELETE, self._url(url), params)
